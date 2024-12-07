@@ -23,6 +23,8 @@ add_subdirectory(util)
 link_libraries(
     arr
     file
+    parse
     sort)
 
 add_subdirectory(d01)
+add_subdirectory(d02)
