@@ -78,38 +78,24 @@ exit:
 	return ret;
 }
 
-void part1(char const *__restrict__ path)
+void part1(uint64_t const *arr1, uint64_t const *arr2, size_t arr_size)
 {
-	uint64_t *arr1, *arr2;
-	off_t arr_size;
-	if (parse_input(&arr1, &arr2, &arr_size, path) < 0) {
-		pr_err("parsing failed.");
-		abort();
-	};
-
-	sort(arr1, arr_size, u64_cmp, u64_xchg);
-	sort(arr2, arr_size, u64_cmp, u64_xchg);
-
 	uint64_t result = 0;
 	for (size_t i = 0; i < arr_size; ++i) {
 		result += max(arr1[i], arr2[i]) - min(arr1[i], arr2[i]);
 	}
 
 	pr_info("part1 result: %zu", result);
-
-free_arr:
-	if (arr1)
-		free(arr1);
-	if (arr2)
-		free(arr2);
 };
 
-uint64_t simil_partial(uint64_t left, uint64_t *arr2, size_t arr_size)
+uint64_t simil_partial(uint64_t left, uint64_t const *__restrict__ arr2,
+		       size_t arr_size)
 {
 	return left * arr_count(arr2, arr_size, &left, u64_get_idx_ptr, u64_eq);
 }
 
-uint64_t simil(uint64_t *arr1, uint64_t *arr2, size_t arr_size)
+uint64_t simil(uint64_t const *__restrict__ arr1,
+	       uint64_t const *__restrict__ arr2, size_t arr_size)
 {
 	uint64_t res = 0;
 	for (size_t i = 0; i < arr_size; ++i) {
@@ -119,26 +105,10 @@ uint64_t simil(uint64_t *arr1, uint64_t *arr2, size_t arr_size)
 	return res;
 }
 
-void part2(char const *__restrict__ path)
+void part2(uint64_t const *arr1, uint64_t const *arr2, size_t arr_size)
 {
-	uint64_t *arr1, *arr2;
-	off_t arr_size;
-	if (parse_input(&arr1, &arr2, &arr_size, path) < 0) {
-		pr_err("parsing failed.");
-		abort();
-	};
-
-	sort(arr1, arr_size, u64_cmp, u64_xchg);
-	sort(arr2, arr_size, u64_cmp, u64_xchg);
-
-	uint64_t result = simil(arr1, arr2, arr_size);
-	pr_info("part2 result: %zu", result);
-
-free_arr:
-	if (arr1)
-		free(arr1);
-	if (arr2)
-		free(arr2);
+	uint64_t res = simil(arr1, arr2, arr_size);
+	pr_info("part2 result: %zu", res);
 };
 
 int main(int argc, char **argv)
@@ -162,11 +132,20 @@ int main(int argc, char **argv)
 	}; break;
 	}
 
+	uint64_t *arr1, *arr2;
+	off_t arr_size;
+	if (parse_input(&arr1, &arr2, &arr_size, argv[2]) < 0) {
+		pr_err("parsing failed.");
+		abort();
+	};
+
 	if (part & 0b01) {
-		part1(argv[2]);
+		sort(arr1, arr_size, u64_cmp, u64_xchg);
+		sort(arr2, arr_size, u64_cmp, u64_xchg);
+		part1(arr1, arr2, arr_size);
 	}
 
 	if (part & 0b10) {
-		part2(argv[2]);
+		part2(arr1, arr2, arr_size);
 	}
 }

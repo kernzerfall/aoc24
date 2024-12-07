@@ -52,8 +52,8 @@ static inline bool u64_eq(void const *a, void const *b)
 	return u64_get(a, 0) == u64_get(b, 0);
 }
 
-static inline size_t arr_count(void *arr, size_t arr_size, void *target,
-			       arr_get_f get, eq_f eq)
+static inline size_t arr_count(void const *__restrict__ arr, size_t arr_size,
+			       void *target, arr_get_f get, eq_f eq)
 {
 	size_t count = 0;
 	for (size_t i = 0; i < arr_size; ++i) {
