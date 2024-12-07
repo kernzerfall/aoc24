@@ -1,0 +1,10 @@
+[language-server.clangd]
+args = ["--background-index", "--compile-commands-dir=build/"]
+
+[[language]]
+name = "c"
+language-servers = [ "clangd" ]
+indent = { tab-width = 8, unit = "\t" }
+formatter = { command = "clang-format" }
+rulers = [80, 100]
+auto-format = true
