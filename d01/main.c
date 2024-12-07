@@ -22,7 +22,7 @@ int parse_input(uint64_t **arr1, uint64_t **arr2, off_t *arr_size,
 		pr_err("mmap failed");
 		ret = -1;
 		goto exit;
-	};
+	}
 
 	size_t lines = count_lines(buf, *arr_size);
 
@@ -86,7 +86,7 @@ void part1(uint64_t const *arr1, uint64_t const *arr2, size_t arr_size)
 	}
 
 	pr_info("part1 result: %zu", result);
-};
+}
 
 uint64_t simil_partial(uint64_t left, uint64_t const *__restrict__ arr2,
 		       size_t arr_size)
@@ -109,7 +109,7 @@ void part2(uint64_t const *arr1, uint64_t const *arr2, size_t arr_size)
 {
 	uint64_t res = simil(arr1, arr2, arr_size);
 	pr_info("part2 result: %zu", res);
-};
+}
 
 int main(int argc, char **argv)
 {
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 	if (parse_input(&arr1, &arr2, &arr_size, argv[2]) < 0) {
 		pr_err("parsing failed.");
 		abort();
-	};
+	}
 
 	if (part & 0b01) {
 		sort(arr1, arr_size, u64_cmp, u64_xchg);
