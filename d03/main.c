@@ -3,15 +3,14 @@
 #include "util/log.h"
 #include "util/parse.h"
 #include "util/sort.h"
+#include "types.h"
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdint.h>
+#include <sys/signal.h>
 
 #define DONT "don't()"
 #define DO "do()"
@@ -20,7 +19,7 @@
 
 void part1(char const *buf, size_t buf_size)
 {
-	uint64_t res = 0;
+	u64 res = 0;
 	size_t pos = 0;
 
 	while (pos < buf_size) {
@@ -70,19 +69,19 @@ void part1(char const *buf, size_t buf_size)
 			continue;
 		}
 
-		uint64_t a = parse_u64(buf, &after_parens, buf_size);
+		u64 a = parse_u64(buf, &after_parens, buf_size);
 		after_parens++;
-		uint64_t b = parse_u64(buf, &after_parens, buf_size);
+		u64 b = parse_u64(buf, &after_parens, buf_size);
 
 		res += a * b;
 	}
 
-	pr_info("part1 result: %zu", res);
+	pr_info("part1 result: %llu", res);
 }
 
 void part2(char const *buf, size_t buf_size)
 {
-	uint64_t res = 0;
+	u64 res = 0;
 	size_t pos = 0;
 	bool do_state = true;
 
@@ -155,14 +154,14 @@ void part2(char const *buf, size_t buf_size)
 			continue;
 		}
 
-		uint64_t a = parse_u64(buf, &after_parens, buf_size);
+		u64 a = parse_u64(buf, &after_parens, buf_size);
 		after_parens++;
-		uint64_t b = parse_u64(buf, &after_parens, buf_size);
+		u64 b = parse_u64(buf, &after_parens, buf_size);
 
 		res += a * b;
 	}
 
-	pr_info("part2 result: %zu", res);
+	pr_info("part2 result: %llu", res);
 }
 
 int main(int argc, char **argv)
@@ -190,7 +189,7 @@ int main(int argc, char **argv)
 	char *buf;
 	off_t buf_size;
 	if (mmap_file_ro(&fd, (void **)&buf, &buf_size, argv[2]) < 0) {
-		abort();
+		raise(SIGABRT);
 	}
 
 	if (part & 0b01) {

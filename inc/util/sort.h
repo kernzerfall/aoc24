@@ -1,7 +1,7 @@
 #ifndef __SORT_H__
 #define __SORT_H__
 
-#include <stdbool.h>
+#include "types.h"
 #include <unistd.h>
 
 #define min(a, b) ((a > b) ? b : a)

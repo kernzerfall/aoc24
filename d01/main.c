@@ -2,17 +2,17 @@
 #include "util/file.h"
 #include "util/log.h"
 #include "util/sort.h"
+#include "types.h"
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <sys/signal.h>
 #include <sys/types.h>
 #include <unistd.h>
 
 #include <stdlib.h>
-#include <stdbool.h>
-#include <stdint.h>
 
-int parse_input(uint64_t **arr1, uint64_t **arr2, off_t *arr_size,
+int parse_input(u64 **arr1, u64 **arr2, off_t *arr_size,
 		char const *__restrict__ path)
 {
 	int ret = 0;
@@ -26,8 +26,8 @@ int parse_input(uint64_t **arr1, uint64_t **arr2, off_t *arr_size,
 
 	size_t lines = count_lines(buf, *arr_size);
 
-	*arr1 = malloc(lines * sizeof(uint64_t));
-	*arr2 = malloc(lines * sizeof(uint64_t));
+	*arr1 = malloc(lines * sizeof(u64));
+	*arr2 = malloc(lines * sizeof(u64));
 
 	if (!*arr1 || !*arr2) {
 		ret = -1;
@@ -36,8 +36,8 @@ int parse_input(uint64_t **arr1, uint64_t **arr2, off_t *arr_size,
 
 	off_t buf_offset = 0;
 	for (size_t i = 0; i < lines; ++i) {
-		uint64_t l1 = 0;
-		uint64_t l2 = 0;
+		u64 l1 = 0;
+		u64 l2 = 0;
 		while (buf_offset < *arr_size && buf[buf_offset] != ' ') {
 			int n = buf[buf_offset] - '0';
 			l1 = 10 * l1 + n;
@@ -74,26 +74,25 @@ exit:
 	return ret;
 }
 
-void part1(uint64_t const *arr1, uint64_t const *arr2, size_t arr_size)
+void part1(u64 const *arr1, u64 const *arr2, size_t arr_size)
 {
-	uint64_t result = 0;
+	u64 result = 0;
 	for (size_t i = 0; i < arr_size; ++i) {
 		result += max(arr1[i], arr2[i]) - min(arr1[i], arr2[i]);
 	}
 
-	pr_info("part1 result: %zu", result);
+	pr_info("part1 result: %llu", result);
 }
 
-uint64_t simil_partial(uint64_t left, uint64_t const *__restrict__ arr2,
-		       size_t arr_size)
+u64 simil_partial(u64 left, u64 const *__restrict__ arr2, size_t arr_size)
 {
 	return left * arr_count(arr2, arr_size, &left, u64_get_idx_ptr, u64_eq);
 }
 
-uint64_t simil(uint64_t const *__restrict__ arr1,
-	       uint64_t const *__restrict__ arr2, size_t arr_size)
+u64 simil(u64 const *__restrict__ arr1, u64 const *__restrict__ arr2,
+	  size_t arr_size)
 {
-	uint64_t res = 0;
+	u64 res = 0;
 	for (size_t i = 0; i < arr_size; ++i) {
 		res += simil_partial(arr1[i], arr2, arr_size);
 	}
@@ -101,10 +100,10 @@ uint64_t simil(uint64_t const *__restrict__ arr1,
 	return res;
 }
 
-void part2(uint64_t const *arr1, uint64_t const *arr2, size_t arr_size)
+void part2(u64 const *arr1, u64 const *arr2, size_t arr_size)
 {
-	uint64_t res = simil(arr1, arr2, arr_size);
-	pr_info("part2 result: %zu", res);
+	u64 res = simil(arr1, arr2, arr_size);
+	pr_info("part2 result: %llu", res);
 }
 
 int main(int argc, char **argv)
@@ -128,11 +127,11 @@ int main(int argc, char **argv)
 	}; break;
 	}
 
-	uint64_t *arr1, *arr2;
+	u64 *arr1, *arr2;
 	off_t arr_size;
 	if (parse_input(&arr1, &arr2, &arr_size, argv[2]) < 0) {
 		pr_err("parsing failed.");
-		abort();
+		raise(SIGABRT);
 	}
 
 	if (part & 0b01) {

@@ -2,17 +2,15 @@
 #include "util/log.h"
 #include "util/parse.h"
 #include "util/sort.h"
+#include "types.h"
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <sys/signal.h>
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdint.h>
-
-enum state : uint8_t {
+enum state : u8 {
 	UNKNOWN,
 	PARSED_FIRST,
 	INFERRED_DECREASING,
@@ -23,8 +21,8 @@ enum state : uint8_t {
 int line_level_safe(char const *buf, size_t *pos, size_t buf_size, off_t ignore)
 {
 	size_t curr_elem_idx = 0;
-	uint64_t curr = 0;
-	uint64_t last = 0;
+	u64 curr = 0;
+	u64 last = 0;
 
 	enum state state = UNKNOWN;
 	while (*pos < buf_size && buf[*pos] != '\n') {
@@ -169,7 +167,7 @@ int main(int argc, char **argv)
 	char *buf;
 	off_t buf_size;
 	if (mmap_file_ro(&fd, (void **)&buf, &buf_size, argv[2]) < 0) {
-		abort();
+		raise(SIGABRT);
 	}
 
 	if (part & 0b01) {
