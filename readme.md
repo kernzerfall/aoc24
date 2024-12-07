@@ -1,7 +1,12 @@
 # <div align=center>kernzerfall's aoc24 solutions</div>
 
 <div align=center>
-  Advent of Code 2024 Solutions in C11 using minimal parts of the standard library. 
+  Advent of Code 2024 Solutions in C11 using minimal parts of the standard library.
+</div>
+<p></p>
+<div align=center>
+  <img src="https://img.shields.io/badge/C11-00599C?logo=c&logoColor=white"></img>
+  <img src="https://img.shields.io/badge/CMake-008FBA?logo=cmake&logoColor=white"></img>
 </div>
 
 ## Building
