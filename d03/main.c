@@ -151,6 +151,11 @@ void part2(char const *buf, size_t buf_size)
 			do_state = true;
 		}
 
+		if (do_state == false) {
+			pos++;
+			continue;
+		}
+
 		pr_dbg_raw("mul found at %zu\n", pos);
 
 		if (pos + 3 >= buf_size || buf[pos + 3] != '(') {
@@ -197,7 +202,7 @@ void part2(char const *buf, size_t buf_size)
 		after_parens++;
 		uint64_t b = parse_u64(buf, &after_parens, buf_size);
 
-		res += do_state * a * b;
+		res += a * b;
 	}
 
 	pr_info("part2 result: %zu", res);
