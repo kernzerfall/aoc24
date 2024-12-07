@@ -54,3 +54,4 @@ dkms.conf
 # stuff
 **/compile_commands.json
 **/build/
+**/.cache/
