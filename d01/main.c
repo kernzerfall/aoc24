@@ -3,14 +3,9 @@
 #include "util/log.h"
 #include "util/sort.h"
 #include "types.h"
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/signal.h>
-#include <sys/types.h>
-#include <unistd.h>
 
-#include <stdlib.h>
+#include <sys/mman.h>
+#include <sys/signal.h>
 
 int parse_input(u64 **arr1, u64 **arr2, off_t *arr_size,
 		char const *__restrict__ path)
@@ -26,8 +21,10 @@ int parse_input(u64 **arr1, u64 **arr2, off_t *arr_size,
 
 	size_t lines = count_lines(buf, *arr_size);
 
-	*arr1 = malloc(lines * sizeof(u64));
-	*arr2 = malloc(lines * sizeof(u64));
+	*arr1 = mmap(NULL, lines * sizeof(u64), PROT_READ | PROT_WRITE,
+		     MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+	*arr2 = mmap(NULL, lines * sizeof(u64), PROT_READ | PROT_WRITE,
+		     MAP_SHARED | MAP_ANONYMOUS, -1, 0);
 
 	if (!*arr1 || !*arr2) {
 		ret = -1;
@@ -64,9 +61,9 @@ int parse_input(u64 **arr1, u64 **arr2, off_t *arr_size,
 
 free_arr:
 	if (arr1)
-		free(arr1);
+		munmap(arr1, lines * sizeof(u64));
 	if (arr2)
-		free(arr2);
+		munmap(arr2, lines * sizeof(u64));
 file_cleanup:
 	munmap((void *)buf, *arr_size);
 	close(fd);
@@ -143,4 +140,10 @@ int main(int argc, char **argv)
 	if (part & 0b10) {
 		part2(arr1, arr2, arr_size);
 	}
+
+free_arr:
+	if (arr1)
+		munmap(arr1, arr_size * sizeof(u64));
+	if (arr2)
+		munmap(arr2, arr_size * sizeof(u64));
 }

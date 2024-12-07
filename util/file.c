@@ -1,7 +1,6 @@
 #include "util/file.h"
 #include "util/log.h"
 
-#include <errno.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -37,5 +36,5 @@ int mmap_file_ro(int *__restrict__ fd, void **__restrict__ ptr,
 	return 0;
 close:
 	close(*fd);
-	return -EPERM;
+	return -1;
 }

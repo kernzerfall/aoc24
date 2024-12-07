@@ -4,12 +4,8 @@
 #include "util/parse.h"
 #include "util/sort.h"
 #include "types.h"
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
 
+#include <sys/mman.h>
 #include <sys/signal.h>
 
 #define DONT "don't()"
