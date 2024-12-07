@@ -15,4 +15,10 @@
 		__FILE__ ":" STRINGIFY(__LINE__) ": " fmt "\n" __VA_OPT__(, ) \
 			__VA_ARGS__)
 
+#ifdef DEBUG
+#define pr_dbg_raw(...) fprintf(stderr, __VA_ARGS__)
+#else
+#define pr_dbg_raw(...)
+#endif
+
 #endif // __LOG_H__
