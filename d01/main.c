@@ -54,12 +54,8 @@ int parse_input(uint64_t **arr1, uint64_t **arr2, off_t *arr_size,
 
 		buf_offset += 1;
 
-		if (l1 || l2) {
-			(*arr1)[i] = l1;
-			(*arr2)[i] = l2;
-		} else {
-			(*arr1)[i] = (*arr2)[i] = 0;
-		}
+		(*arr1)[i] = l1;
+		(*arr2)[i] = l2;
 	}
 
 	ret = 0;
