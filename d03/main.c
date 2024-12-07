@@ -1,7 +1,5 @@
-#define DEBUG
 #include "util/file.h"
 #include "util/log.h"
-#include "util/todo.h"
 #include "util/parse.h"
 #include "util/sort.h"
 #include <fcntl.h>
@@ -10,30 +8,45 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
 
-off_t seek_to_mul(char const *buf, size_t *pos, size_t buf_size)
+#define DONT "don't()"
+#define DO "do()"
+#define MUL "mul"
+#define rsiz(x) (sizeof(x) - 1)
+
+off_t seek_to_str(char const *buf, size_t *pos, const size_t buf_size,
+		  const char *target, const size_t target_size)
 {
 seek_continue:
-	while (*pos < buf_size && buf[*pos] != 'm') {
+	while (*pos < buf_size && buf[*pos] != target[0]) {
 		(*pos)++;
 	}
 
-	if ((*pos >= buf_size) || (*pos + 2 >= buf_size)) {
+	if ((*pos >= buf_size) || (*pos + target_size - 1 >= buf_size)) {
 		return -1;
 	}
 
-	if (buf[(*pos) + 1] != 'u' || buf[(*pos) + 2] != 'l') {
-		pr_dbg_raw("seek skipping %c%c%c\n", *(buf + *pos),
-			   *(buf + *pos + 1), *(buf + *pos + 2));
+	if (strncmp(buf + *pos, target, target_size) != 0) {
 		(*pos)++;
 		goto seek_continue;
 	}
 
 	return (*pos);
 }
+
+off_t find_str(char const *buf, const size_t pos, const size_t buf_size,
+	       const char *target, const size_t target_size)
+{
+	size_t npos = pos;
+	if (seek_to_str(buf, &npos, buf_size, target, target_size) < 0) {
+		return -1;
+	}
+	return npos;
+};
 
 int seek_to_char(char const *buf, size_t *pos, size_t buf_size, char c)
 {
@@ -54,7 +67,7 @@ void part1(char const *buf, size_t buf_size)
 	size_t pos = 0;
 
 	while (pos < buf_size) {
-		if (seek_to_mul(buf, &pos, buf_size) < 0) {
+		if (seek_to_str(buf, &pos, buf_size, MUL, rsiz(MUL)) < 0) {
 			break;
 		}
 
@@ -110,49 +123,6 @@ void part1(char const *buf, size_t buf_size)
 	pr_info("part1 result: %zu", res);
 }
 
-off_t rng_cont_do(char const *buf, size_t start, size_t end)
-{
-seek_continue:
-	if (seek_to_char(buf, &start, end, 'd') < 0) {
-		return -1;
-	}
-
-	if (start + 3 >= end) {
-		return -1;
-	}
-
-	if (buf[start + 1] != 'o' || buf[start + 2] != '(' ||
-	    buf[start + 3] != ')') {
-		start++;
-		goto seek_continue;
-	}
-
-	return start;
-}
-
-off_t rng_cont_dont(char const *buf, size_t start, size_t end)
-{
-	size_t pos = start;
-seek_continue:
-
-	if (seek_to_char(buf, &pos, end, 'd') < 0) {
-		return -1;
-	}
-
-	if (pos + 6 >= end) {
-		return -1;
-	}
-
-	if (buf[pos + 1] != 'o' || buf[pos + 2] != 'n' ||
-	    buf[pos + 3] != '\'' || buf[pos + 4] != 't' ||
-	    buf[pos + 5] != '(' || buf[pos + 6] != ')') {
-		pos++;
-		goto seek_continue;
-	}
-
-	return pos;
-}
-
 void part2(char const *buf, size_t buf_size)
 {
 	uint64_t res = 0;
@@ -161,17 +131,17 @@ void part2(char const *buf, size_t buf_size)
 
 	while (pos < buf_size) {
 		size_t pos_bf = pos;
-		if (seek_to_mul(buf, &pos, buf_size) < 0) {
+		if (seek_to_str(buf, &pos, buf_size, MUL, rsiz(MUL)) < 0) {
 			break;
 		}
 
-		off_t yidx = rng_cont_do(buf, pos_bf, pos);
-		off_t nidx = rng_cont_dont(buf, pos_bf, pos);
-		while (yidx >= 0 && nidx >= 0) {
+		off_t yidx = pos_bf;
+		off_t nidx = pos_bf;
+		do {
 			pos_bf = max(nidx, yidx);
-			yidx = rng_cont_do(buf, pos_bf, pos);
-			nidx = rng_cont_dont(buf, pos_bf, pos);
-		}
+			yidx = find_str(buf, pos_bf, pos, DO, rsiz(DO));
+			nidx = find_str(buf, pos_bf, pos, DONT, rsiz(DONT));
+		} while (yidx >= 0 && nidx >= 0);
 
 		if (nidx >= 0) {
 			pr_dbg_raw("using dont at %zu\n", pos_bf);
