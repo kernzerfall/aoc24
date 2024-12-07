@@ -65,4 +65,12 @@ static inline size_t arr_count(void const *__restrict__ arr, size_t arr_size,
 	return count;
 }
 
+int seek_to_char(char const *buf, size_t *pos, size_t buf_size, char c);
+
+off_t seek_to_str(char const *buf, size_t *pos, const size_t buf_size,
+		  const char *target, const size_t target_size);
+
+off_t find_str(char const *buf, const size_t pos, const size_t buf_size,
+	       const char *target, const size_t target_size);
+
 #endif // __ARR_H__
