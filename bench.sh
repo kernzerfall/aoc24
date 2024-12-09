@@ -2,9 +2,9 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# Expects the input for dayXY to be in ./build/inputXY
+# Expects the input for dayXY to be in /tmp/inputXY
 day_command() {
-  printf "${SCRIPT_DIR}/build/d$1/d$1 b ${SCRIPT_DIR}/build/input$1"
+  printf "${SCRIPT_DIR}/build/d$1/d$1 b /tmp/input$1"
 }
 
 declare -a bench_targets
