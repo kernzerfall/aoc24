@@ -106,7 +106,7 @@ void part2(u64 const *arr1, u64 const *arr2, size_t arr_size)
 int main(int argc, char **argv)
 {
 	if (argc != 3) {
-		pr_err("Usage: %s 0|1|b <file>", argv[0]);
+		pr_err("Usage: %s 1|2|b <file>", argv[0]);
 		return -1;
 	}
 
