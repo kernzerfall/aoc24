@@ -141,7 +141,6 @@ int main(int argc, char **argv)
 		part2(arr1, arr2, arr_size);
 	}
 
-free_arr:
 	if (arr1)
 		munmap(arr1, arr_size * sizeof(u64));
 	if (arr2)
