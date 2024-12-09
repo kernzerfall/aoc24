@@ -14,17 +14,18 @@ struct vec2 {
 	off_t y;
 };
 
-static const struct vec2 _DIR_E = { .x = 1, .y = 0 };
-static const struct vec2 _DIR_NE = { .x = 1, .y = 1 };
-static const struct vec2 _DIR_N = { .x = 0, .y = 1 };
-static const struct vec2 _DIR_NW = { .x = -1, .y = 1 };
-static const struct vec2 _DIR_W = { .x = -1, .y = 0 };
-static const struct vec2 _DIR_SW = { .x = -1, .y = -1 };
-static const struct vec2 _DIR_S = { .x = 0, .y = -1 };
-static const struct vec2 _DIR_SE = { .x = 1, .y = -1 };
+#define _V2_DIR_E ((struct vec2){ .x = 1, .y = 0 })
+#define _V2_DIR_NE ((struct vec2){ .x = 1, .y = 1 })
+#define _V2_DIR_N ((struct vec2){ .x = 0, .y = 1 })
+#define _V2_DIR_NW ((struct vec2){ .x = -1, .y = 1 })
+#define _V2_DIR_W ((struct vec2){ .x = -1, .y = 0 })
+#define _V2_DIR_SW ((struct vec2){ .x = -1, .y = -1 })
+#define _V2_DIR_S ((struct vec2){ .x = 0, .y = -1 })
+#define _V2_DIR_SE ((struct vec2){ .x = 1, .y = -1 })
 
-static const struct vec2 dirs[8] = { _DIR_E, _DIR_NE, _DIR_N, _DIR_NW,
-				     _DIR_W, _DIR_SW, _DIR_S, _DIR_SE };
+static const struct vec2 dirs[8] = { _V2_DIR_E,	 _V2_DIR_NE, _V2_DIR_N,
+				     _V2_DIR_NW, _V2_DIR_W,  _V2_DIR_SW,
+				     _V2_DIR_S,	 _V2_DIR_SE };
 
 enum dir2 : u8 {
 	DIR_E = 0,
