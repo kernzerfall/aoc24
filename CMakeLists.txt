@@ -8,7 +8,7 @@ project(AOC24)
 
 if(CMAKE_BUILD_TYPE MATCHES "Rel")
     message(STATUS "Release optimizations enabled")
-    add_compile_options(-O3 -flto)
+    add_compile_options(-Ofast -flto)
     add_link_options(-flto)
 else()
     message(STATUS "ASAN Enabled")
