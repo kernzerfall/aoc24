@@ -17,9 +17,8 @@ for i in $(seq 1 30); do
   bench_targets+=("$(day_command $d)")
 done
 
-echo ${bench_targets[@]}
-
 hyperfine \
-  --export-markdown "${SCRIPT_DIR}/build/bench.md" \
-  -N --prepare 'true' --warmup 1024 --min-runs 1024 \
-  -- "${bench_targets[@]}"
+    --export-markdown "${SCRIPT_DIR}/build/bench.md" \
+    -N --prepare 'true' --warmup 1024 --min-runs 1024 \
+    -u microsecond \
+    -- "${bench_targets[@]}"
