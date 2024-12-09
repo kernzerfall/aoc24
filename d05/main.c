@@ -73,7 +73,7 @@ void build_depmap(u128 **depmap, char const *buf, size_t *pos, size_t buf_size)
  * The elements of the list get saved in the scratchpad, the size in list_size.
  *
  * Depmap contains the dependency map (array of bitmaps) calculated by
- * the function above.
+ * `build_depmap`.
  */
 u64 list_safe(u128 const *depmap, char const *buf, size_t *pos, size_t buf_size,
 	      u8 *scratchpad, size_t *list_size)
