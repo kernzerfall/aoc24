@@ -1,4 +1,4 @@
-#define DEBUG
+// #define DEBUG
 #include "util/file.h"
 #include "util/log.h"
 #include "util/todo.h"
@@ -42,16 +42,16 @@ struct ray {
 	struct vec2 dir;
 };
 
-void vec2_add(struct vec2 *res, const struct vec2 *v1, const struct vec2 *v2)
+void vec2_add(struct vec2 *v1, const struct vec2 *v2)
 {
-	res->x = v1->x + v2->x;
-	res->y = v1->y + v2->y;
+	v1->x += v2->x;
+	v1->y += v2->y;
 }
 
 int ray_advance(struct ray *ray, const struct vec2 *bounds)
 {
-	struct vec2 rpos;
-	vec2_add(&rpos, &ray->pos, &ray->dir);
+	struct vec2 rpos = ray->pos;
+	vec2_add(&rpos, &ray->dir);
 	if ((0 <= rpos.x) && (rpos.x < bounds->x) && (0 <= rpos.y) &&
 	    (rpos.y < bounds->y)) {
 		ray->pos = rpos;
