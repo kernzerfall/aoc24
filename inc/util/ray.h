@@ -42,19 +42,20 @@ struct ray {
 	struct vec2 dir;
 };
 
-inline void vec2_add(struct vec2 *v1, const struct vec2 *v2)
+static inline void vec2_add(struct vec2 *v1, const struct vec2 *v2)
 {
 	v1->x += v2->x;
 	v1->y += v2->y;
 }
 
-inline bool inside_bounds(const struct vec2 *pos, const struct vec2 *bounds)
+static inline bool inside_bounds(const struct vec2 *pos,
+				 const struct vec2 *bounds)
 {
 	return (0 <= pos->x) && (pos->x < bounds->x) && (0 <= pos->y) &&
 	       (pos->y < bounds->y);
 }
 
-inline int ray_advance(struct ray *ray, const struct vec2 *bounds)
+static inline int ray_advance(struct ray *ray, const struct vec2 *bounds)
 {
 	struct vec2 rpos = ray->pos;
 	pr_trace("ra (%03ld,%03ld) + (%03ld,%03ld) -> ", rpos.x, rpos.y,
@@ -70,22 +71,23 @@ inline int ray_advance(struct ray *ray, const struct vec2 *bounds)
 
 // Utils to use 1D buffers as linear 2D buffers
 
-inline size_t buf_pos_to_offset(const struct vec2 *xy,
-				const struct vec2 *bounds)
+static inline size_t buf_pos_to_offset(const struct vec2 *xy,
+				       const struct vec2 *bounds)
 {
 	return bounds->x * xy->y + xy->x;
 }
 
-inline void buf_offset_to_pos(struct vec2 *res, size_t offset,
-			      const struct vec2 *bounds)
+static inline void buf_offset_to_pos(struct vec2 *res, size_t offset,
+				     const struct vec2 *bounds)
 {
 	res->x = offset % bounds->x;
 	res->y = offset / bounds->x;
 }
 
-inline char buf_pos(const char *__restrict__ buf, const struct vec2 *xy,
-		    const struct vec2 *bounds)
+static inline char buf_pos(const char *__restrict__ buf, const struct vec2 *xy,
+			   const struct vec2 *bounds)
 {
 	return buf[buf_pos_to_offset(xy, bounds)];
 }
+
 #endif // __RAY_H__

@@ -47,9 +47,9 @@ bool xmas_ray(const char *__restrict__ buf, const struct vec2 *origin,
 	return true;
 }
 
-inline size_t xmas_ray_scan(const char *__restrict__ buf,
-			    const struct vec2 *origin,
-			    const struct vec2 *bounds)
+static inline size_t xmas_ray_scan(const char *__restrict__ buf,
+				   const struct vec2 *origin,
+				   const struct vec2 *bounds)
 {
 	size_t res = 0;
 	for (size_t i = 0; i < 8; ++i) {
