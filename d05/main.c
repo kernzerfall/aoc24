@@ -97,13 +97,12 @@ u64 list_safe(u128 const *depmap, char const *buf, size_t *pos, size_t buf_size,
 		//               differ
 		u128 comp = seen ^ depmap[curr];
 
-		pr_dbg_raw("curr = %lu\n", curr);
-		pr_dbg_raw("seen = %016lx%016lx\n", (u64)(seen >> 64),
-			   (u64)(seen));
-		pr_dbg_raw("curr = %016lx%016lx\n", (u64)(depmap[curr] >> 64),
-			   (u64)(depmap[curr]));
-		pr_dbg_raw("xor  = %016lx%016lx\n", (u64)(comp >> 64),
-			   (u64)(comp));
+		pr_trace("curr = %lu", curr);
+		pr_trace("seen = %016lx%016lx", (u64)(seen >> 64), (u64)(seen));
+		pr_trace("curr = %016lx%016lx", (u64)(depmap[curr] >> 64),
+			 (u64)(depmap[curr]));
+		pr_trace("xor  = %016lx%016lx\n", (u64)(comp >> 64),
+			 (u64)(comp));
 
 		// If we see a number that has an unmet dependency, that
 		// dependency is from now on forbidden, since seeing it
@@ -183,10 +182,11 @@ u64 reorder_list(const u128 *depmap, u8 *scratchpad, size_t list_size)
 
 #if DEBUG
 	pr_dbg("reordered list:");
+	pr_dbg_raw("\t");
 	for (size_t i = 0; i < list_size; ++i) {
-		printf("%d ", scratchpad[i]);
+		pr_dbg_raw("%d ", scratchpad[i]);
 	}
-	printf("\n");
+	pr_dbg_raw("\n");
 #endif
 	size_t middle = list_size / 2;
 	pr_dbg("list reorder, middle@%zu -> %d\n", middle, scratchpad[middle]);
