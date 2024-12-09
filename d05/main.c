@@ -158,7 +158,7 @@ void u8_xchg(void *ptr, size_t i, size_t j)
  *
  *  `knowl` ("knowledge") is the depmap.
  */
-static int list_u8_cmp(void const *knowl, void const *ptr, size_t i, size_t j)
+static int depmap_u8_cmp(void const *knowl, void const *ptr, size_t i, size_t j)
 {
 	const u128 *depmap = knowl;
 	u8 a = u8_get(ptr, i);
@@ -180,7 +180,7 @@ static int list_u8_cmp(void const *knowl, void const *ptr, size_t i, size_t j)
  */
 u64 reorder_list(const u128 *depmap, u8 *scratchpad, size_t list_size)
 {
-	sort_knowl((void *)depmap, (void *)scratchpad, list_size, list_u8_cmp,
+	sort_knowl((void *)depmap, (void *)scratchpad, list_size, depmap_u8_cmp,
 		   u8_xchg);
 
 #if DEBUG
