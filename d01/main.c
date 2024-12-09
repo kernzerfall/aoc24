@@ -1,6 +1,7 @@
 #include "util/arr.h"
 #include "util/file.h"
 #include "util/log.h"
+#include "util/parse.h"
 #include "util/sort.h"
 #include "types.h"
 
@@ -33,22 +34,9 @@ int parse_input(u64 **arr1, u64 **arr2, size_t *arr_size,
 
 	size_t buf_offset = 0;
 	for (size_t i = 0; i < lines; ++i) {
-		u64 l1 = 0;
-		u64 l2 = 0;
-		while (buf_offset < *arr_size && buf[buf_offset] != ' ') {
-			int n = buf[buf_offset] - '0';
-			l1 = 10 * l1 + n;
-			buf_offset++;
-		}
-
+		u64 l1 = parse_u64(buf, &buf_offset, *arr_size);
 		buf_offset += 3;
-
-		while (buf_offset < *arr_size && buf[buf_offset] != '\n') {
-			int n = buf[buf_offset] - '0';
-			l2 = 10 * l2 + n;
-			buf_offset++;
-		}
-
+		u64 l2 = parse_u64(buf, &buf_offset, *arr_size);
 		buf_offset += 1;
 
 		(*arr1)[i] = l1;
