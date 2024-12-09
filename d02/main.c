@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 
 	int fd;
 	char *buf;
-	off_t buf_size;
+	size_t buf_size;
 	if (mmap_file_ro(&fd, (void **)&buf, &buf_size, argv[2]) < 0) {
 		raise(SIGABRT);
 	}

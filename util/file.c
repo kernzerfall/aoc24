@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 
 int mmap_file_ro(int *__restrict__ fd, void **__restrict__ ptr,
-		 off_t *__restrict__ fsize, char const *__restrict__ path)
+		 size_t *__restrict__ fsize, char const *__restrict__ path)
 {
 	if (!fd || !ptr || !fsize) {
 		pr_err("got a null pointer");

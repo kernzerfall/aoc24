@@ -7,7 +7,7 @@
 #include <sys/mman.h>
 #include <sys/signal.h>
 
-int parse_input(u64 **arr1, u64 **arr2, off_t *arr_size,
+int parse_input(u64 **arr1, u64 **arr2, size_t *arr_size,
 		char const *__restrict__ path)
 {
 	int ret = 0;
@@ -31,7 +31,7 @@ int parse_input(u64 **arr1, u64 **arr2, off_t *arr_size,
 		goto free_arr;
 	}
 
-	off_t buf_offset = 0;
+	size_t buf_offset = 0;
 	for (size_t i = 0; i < lines; ++i) {
 		u64 l1 = 0;
 		u64 l2 = 0;
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 	}
 
 	u64 *arr1, *arr2;
-	off_t arr_size;
+	size_t arr_size;
 	if (parse_input(&arr1, &arr2, &arr_size, argv[2]) < 0) {
 		pr_err("parsing failed.");
 		raise(SIGABRT);

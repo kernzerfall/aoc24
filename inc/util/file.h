@@ -41,6 +41,6 @@ static inline size_t line_length(char const *__restrict__ buf,
 }
 
 int mmap_file_ro(int *__restrict__ fd, void **__restrict__ ptr,
-		 off_t *__restrict__ fsize, char const *__restrict__ path);
+		 size_t *__restrict__ fsize, char const *__restrict__ path);
 
 #endif // __FILE_H__
