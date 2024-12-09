@@ -90,6 +90,8 @@ u64 list_safe(u128 const *depmap, char const *buf, size_t *pos, size_t buf_size,
 
 		if (bm_get(&forbidden, curr)) {
 			pr_dbg("list rejected due to forbidden %lu\n", curr);
+			// we don't break out here, since we want to have parsed
+			// the whole list for part2
 			reject = true;
 		}
 
@@ -111,7 +113,9 @@ u64 list_safe(u128 const *depmap, char const *buf, size_t *pos, size_t buf_size,
 			forbidden |= comp;
 		}
 
+		// Note the current number as "seen"
 		bm_set(&seen, curr);
+
 		if (buf[*pos] == '\n') {
 			break;
 		}
@@ -119,12 +123,11 @@ u64 list_safe(u128 const *depmap, char const *buf, size_t *pos, size_t buf_size,
 		(*pos)++;
 	}
 
-	// if we're here, the list is accepted -> find middle
-
 	if (reject) {
 		return 0;
 	}
 
+	// if we're here, the list is accepted -> find middle
 	size_t middle = *list_size / 2;
 	pr_dbg("list done, middle@%zu -> %d\n", middle, scratchpad[middle]);
 	return scratchpad[middle];
@@ -247,6 +250,7 @@ int main(int argc, char **argv)
 	}; break;
 	default: {
 		pr_err("unknown part: %zu", part);
+		raise(SIGABRT);
 	}; break;
 	}
 
