@@ -109,9 +109,7 @@ u64 list_safe(u128 const *depmap, char const *buf, size_t *pos, size_t buf_size,
 		// If we see a number that has an unmet dependency, that
 		// dependency is from now on forbidden, since seeing it
 		// afterwards would break a rule
-		if (comp) {
-			forbidden |= comp;
-		}
+		forbidden |= comp;
 
 		// Note the current number as "seen"
 		bm_set(&seen, curr);
