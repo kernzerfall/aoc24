@@ -1,4 +1,3 @@
-#define TRACE
 #include "util/sort.h"
 #include "util/file.h"
 #include "util/log.h"
