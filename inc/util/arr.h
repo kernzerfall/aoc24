@@ -43,7 +43,7 @@ static inline int u64_cmp(void const *arr, size_t i1, size_t i2)
 static inline void u64_print(void const *arr, size_t arr_size)
 {
 	for (size_t i = 0; i < arr_size; ++i) {
-		printf("%llu\n", u64_get(arr, i));
+		printf("%lu\n", u64_get(arr, i));
 	}
 }
 

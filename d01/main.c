@@ -66,7 +66,7 @@ void part1(u64 const *arr1, u64 const *arr2, size_t arr_size)
 		result += max(arr1[i], arr2[i]) - min(arr1[i], arr2[i]);
 	}
 
-	pr_info("part1 result: %llu", result);
+	pr_info("part1 result: %lu", result);
 }
 
 u64 simil_partial(u64 left, u64 const *__restrict__ arr2, size_t arr_size)
@@ -88,7 +88,7 @@ u64 simil(u64 const *__restrict__ arr1, u64 const *__restrict__ arr2,
 void part2(u64 const *arr1, u64 const *arr2, size_t arr_size)
 {
 	u64 res = simil(arr1, arr2, arr_size);
-	pr_info("part2 result: %llu", res);
+	pr_info("part2 result: %lu", res);
 }
 
 int main(int argc, char **argv)

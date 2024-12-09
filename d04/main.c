@@ -98,15 +98,13 @@ bool xmask_cmp(const char *__restrict__ buf, const struct vec2 *origin,
 		const bool mismatch_se = curr_buf_se != curr_msk_se;
 		const bool mismatch_ne = curr_buf_ne != curr_msk_ne;
 
-		pr_dbg_raw(
-			"\tSE <%03lld, %03lld> %c - <%03lld, %03lld> %c : %b\n",
-			br_se.pos.x, br_se.pos.y, curr_buf_se, mr_se.pos.x,
-			mr_se.pos.y, curr_msk_se, mismatch_se);
+		pr_dbg_raw("\tSE <%03ld, %03ld> %c - <%03ld, %03ld> %c : %b\n",
+			   br_se.pos.x, br_se.pos.y, curr_buf_se, mr_se.pos.x,
+			   mr_se.pos.y, curr_msk_se, mismatch_se);
 
-		pr_dbg_raw(
-			"\tNE <%03lld, %03lld> %c - <%03lld, %03lld> %c : %b\n",
-			br_ne.pos.x, br_ne.pos.y, curr_buf_ne, mr_ne.pos.x,
-			mr_ne.pos.y, curr_msk_ne, mismatch_ne);
+		pr_dbg_raw("\tNE <%03ld, %03ld> %c - <%03ld, %03ld> %c : %b\n",
+			   br_ne.pos.x, br_ne.pos.y, curr_buf_ne, mr_ne.pos.x,
+			   mr_ne.pos.y, curr_msk_ne, mismatch_ne);
 
 		if (mismatch_se || mismatch_ne) {
 			return false;
@@ -138,7 +136,7 @@ void part1(char const *buf, size_t buf_size)
 		.y = count_lines(buf, buf_size),
 	};
 
-	pr_dbg_raw("bounds: %03lld - %03lld\n", bounds.x, bounds.y);
+	pr_dbg_raw("bounds: %03ld - %03ld\n", bounds.x, bounds.y);
 
 	size_t res = 0;
 	for (size_t offset = 0; offset < buf_size; ++offset) {
@@ -149,7 +147,7 @@ void part1(char const *buf, size_t buf_size)
 		struct vec2 xy;
 		buf_offset_to_pos(&xy, offset, &bounds);
 
-		pr_dbg("found X at offset %03zu, xy = (%03lld, %03lld)", offset,
+		pr_dbg("found X at offset %03zu, xy = (%03ld, %03ld)", offset,
 		       xy.x, xy.y);
 
 		res += xmas_ray_scan(buf, &xy, &bounds);
@@ -164,7 +162,7 @@ void part2(char const *buf, size_t buf_size)
 		.y = count_lines(buf, buf_size),
 	};
 
-	pr_dbg_raw("bounds: %03lld - %03lld\n", bounds.x, bounds.y);
+	pr_dbg_raw("bounds: %03ld - %03ld\n", bounds.x, bounds.y);
 
 	size_t res = 0;
 	for (size_t offset = 0; offset < buf_size; ++offset) {
@@ -177,7 +175,7 @@ void part2(char const *buf, size_t buf_size)
 		struct vec2 xy;
 		buf_offset_to_pos(&xy, offset, &bounds);
 
-		pr_dbg("found %c at offset %03zu, xy = (%03lld, %03lld)",
+		pr_dbg("found %c at offset %03zu, xy = (%03ld, %03ld)",
 		       buf[offset], offset, xy.x, xy.y);
 
 		if (buf[offset] == 'M') {

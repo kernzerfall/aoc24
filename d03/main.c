@@ -72,7 +72,7 @@ void part1(char const *buf, size_t buf_size)
 		res += a * b;
 	}
 
-	pr_info("part1 result: %llu", res);
+	pr_info("part1 result: %lu", res);
 }
 
 void part2(char const *buf, size_t buf_size)
@@ -157,7 +157,7 @@ void part2(char const *buf, size_t buf_size)
 		res += a * b;
 	}
 
-	pr_info("part2 result: %llu", res);
+	pr_info("part2 result: %lu", res);
 }
 
 int main(int argc, char **argv)

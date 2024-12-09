@@ -57,10 +57,10 @@ inline bool inside_bounds(const struct vec2 *pos, const struct vec2 *bounds)
 inline int ray_advance(struct ray *ray, const struct vec2 *bounds)
 {
 	struct vec2 rpos = ray->pos;
-	pr_trace("ra (%03lld,%03lld) + (%03lld,%03lld) -> ", rpos.x, rpos.y,
+	pr_trace("ra (%03ld,%03ld) + (%03ld,%03ld) -> ", rpos.x, rpos.y,
 		 ray->dir.x, ray->dir.y);
 	vec2_add(&rpos, &ray->dir);
-	pr_trace_raw("(%03lld,%03lld)\n", rpos.x, rpos.y);
+	pr_trace_raw("(%03ld,%03ld)\n", rpos.x, rpos.y);
 	if (inside_bounds(&rpos, bounds)) {
 		ray->pos = rpos;
 		return 0;
