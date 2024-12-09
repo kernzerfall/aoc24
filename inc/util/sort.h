@@ -8,10 +8,14 @@
 #define max(a, b) ((a < b) ? b : a)
 
 typedef int (*sort_cmp_f)(void const *, size_t, size_t);
+typedef int (*sort_cmp_knowl_f)(void const *, void const *, size_t, size_t);
 typedef void (*sort_xchg_f)(void *, size_t, size_t);
 
 bool sorted(void const *__restrict__ arr, size_t arr_size, sort_cmp_f cmp);
 
 void sort(void *arr, size_t arr_size, sort_cmp_f cmp, sort_xchg_f xchg);
+
+void sort_knowl(void *knowl, void *arr, size_t arr_size, sort_cmp_knowl_f cmp,
+		sort_xchg_f xchg);
 
 #endif // __SORT_H__

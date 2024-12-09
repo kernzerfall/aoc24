@@ -16,6 +16,14 @@ else()
     add_link_options(-fsanitize=address,undefined -g)
 endif()
 
+if(DEFINED DEBUG)
+    add_definitions(-DDEBUG)
+endif()
+
+if(DEFINED TRACE)
+    add_definitions(-DTRACE)
+endif()
+
 include_directories(
   "${PROJECT_SOURCE_DIR}/inc/")
 
@@ -30,3 +38,4 @@ add_subdirectory(d01)
 add_subdirectory(d02)
 add_subdirectory(d03)
 add_subdirectory(d04)
+add_subdirectory(d05)
